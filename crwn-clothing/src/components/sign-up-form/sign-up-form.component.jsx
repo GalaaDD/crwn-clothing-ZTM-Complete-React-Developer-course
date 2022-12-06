@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
@@ -20,7 +20,6 @@ const defaultFormFields = {
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
-  console.log("hit");
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -33,15 +32,15 @@ const SignUpForm = () => {
       alert("passwords do not match");
       return;
     }
+
     try {
       const { user } = await createAuthUserWithEmailAndPassword(
         email,
         password
       );
-      await createUserDocumentFromAuth(user, { displayName });
 
+      await createUserDocumentFromAuth(user, { displayName });
       resetFormFields();
-      console.log(user);
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         alert("Cannot create user, email already in use");
@@ -62,7 +61,6 @@ const SignUpForm = () => {
       <h2>Don't have an account?</h2>
       <span>Sign up with your email and password</span>
       <form onSubmit={handleSubmit}>
-        <label>Diplay Name</label>
         <FormInput
           label="Display Name"
           type="text"
@@ -72,7 +70,6 @@ const SignUpForm = () => {
           value={displayName}
         />
 
-        <label>Email</label>
         <FormInput
           label="Email"
           type="email"
@@ -82,7 +79,6 @@ const SignUpForm = () => {
           value={email}
         />
 
-        <label>Password</label>
         <FormInput
           label="Password"
           type="password"
@@ -92,16 +88,14 @@ const SignUpForm = () => {
           value={password}
         />
 
-        <label> Confirm Password</label>
         <FormInput
-          label="ConfirmPassword"
+          label="Confirm Password"
           type="password"
           required
           onChange={handleChange}
           name="confirmPassword"
           value={confirmPassword}
         />
-
         <Button type="submit">Sign Up</Button>
       </form>
     </div>
